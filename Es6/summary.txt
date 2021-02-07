@@ -165,5 +165,3 @@ static log(message) {
 console.log(message);
 }
 }
-
-
