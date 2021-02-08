@@ -165,3 +165,122 @@ static log(message) {
 console.log(message);
 }
 }
+
+
+iterators  and generators
+Cheat Sheet – Iterators &
+Generators
+Iterators
+Iterators probably sound more complex than they are. Basically an iterator
+has a function – next() – which allows you to output values step by step.
+let array = [1, 2, 3];
+let iterator = array[Symbol.iterator]();
+console.log(iterator.next()); // prints {done: false, value: 1}
+Calling next prints the current state (done => false or true, depending on
+the amount of values left) and the current value.
+The cool thing about iterators is, that you can implement them in your own
+objects.
+let iterableObj = {
+    [Symbol.iterator]() 
+    {
+    let nextVal = 5;
+        return 
+        {
+            next() 
+            {
+                return 
+                {
+                    value: nextVal++,
+                    done: false
+                }
+            }           
+        }
+    }   
+};
+
+let iterator = iterableObj[Symbol.iterator]();
+console.log(iterator.next()); // {done: false, value: 5}
+Note that the iterator specified here would run forever, since done is never
+set to true.
+More information can be found here:
+https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Iteration
+_protocols
+
+Generators
+Generators are functions which don’t necessarily run to the end upon
+execution.
+Instead, upon each call they yield a value. A generator is created by adding
+an asterisk in front of the function name.
+function *select() {
+yield 'House Data';
+yield 'Person Data';
+}
+When executing a function they don’t return a value immediately, instead
+an iterator is returned. This iterator may then be used to access the
+returned values step by step.
+let iterator = select();
+console.log(iterator.next()); // prints House Data
+console.log(iterator.next()); // prints Person Data
+console.log(iterator.next()); // prints undefined
+Of course you may also pass arguments to generators and use them in the
+function body.
+More information on generators can be found here:
+https://developer.mozilla.org/enUS/docs/Web/JavaScript/Reference/Statements/function*
+
+promises
+
+Promises are a great addition to handle asynchronous tasks/ callbacks. As
+the name implies, a Promise promises to return a certain value - even if the
+underlying task fails. In such a failure case, the promise would be rejected
+but the caller would still be informed.
+Therefore, a promise is created with a resolve and reject function being
+passed as arguments. Depending on the result, the appropriate function is
+executed and a possible return value is passed as an argument.
+let promise = new Promise(function(resolve, reject) {
+setTimeout(function() { // setTimeout to simulate async task
+resolve('Done!'):
+}, 1000);
+
+4);
+
+The returned result may then be used in a callback specified in the then)
+method.
+
+promise.then(function(value) {
+console.log(value): // prints Done!
+
+4);
+
+You may also chain multiple then() calls which will be executed in the order
+specified and which might also again use promises.
+
+let fnWaitASecond = function(secondsPassed) {
+return new Promise(function(resolve, reject) {
+setTimeout(function() {
+
+secondsPassed+t+;
+resolve(secondsPassed);
+}, 1000);
+});
+};
+
+fnWaitASecond(0)
+.then(fnWaitASecond) // Passes value automatically
+
+.then(function(seconds) {
+
+console.log('Promises: waited ' + seconds + ' seconds’):
+
+4);
+
+Promises also offer some built-in methods you may use to control them.
+With race() you may use multiple Promises at once and only use the value
+returned by the first Promise to resolve. You'll get a value as soon as the
+first Promise is resolved.
+
+With all) you may use multiple Promises at once and take all returned
+values into account. Therefore, you'll only get a value once all Promises
+were resolved.
+
+More information may be found here: https://developer.mozilla.org/en-
+US/docs/Web/JavaScript/Reference/Global Objects/Promise
